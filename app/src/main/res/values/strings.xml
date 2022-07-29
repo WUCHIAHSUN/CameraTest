@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CameraTest</string>
+
+
+    <string name="mac">機號(MAC)：</string>
+    <string name="send">送出</string>
+
+    <string name="camera_no_open">相機權限未開啟</string>
+
+    <string name="search_code">條碼掃描</string>
+    <string name="correct">正確</string>
+    <string name="error">錯誤</string>
+</resources>
