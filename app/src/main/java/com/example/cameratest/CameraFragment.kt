@@ -1,7 +1,9 @@
 package com.example.cameratest
 
 import android.annotation.SuppressLint
+import android.hardware.Camera
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +33,6 @@ class CameraFragment: BaseFragment(), ZXingScannerView.ResultHandler {
         radioError = view.findViewById(R.id.code_id_error)
 
         radioCorrect?.isChecked = true
-
         //送出按鈕
         var sendButton: Button = view.findViewById(R.id.btn_send)
         sendButton.setOnClickListener(onclicklistener())
@@ -79,7 +80,7 @@ class CameraFragment: BaseFragment(), ZXingScannerView.ResultHandler {
     private fun onclicklistener(): View.OnClickListener = View.OnClickListener { view ->
         when(view.id){
             R.id.btn_send ->{
-
+                Toast.makeText(getBaseActivity(), getBaseActivity()!!.getString(R.string.send), Toast.LENGTH_LONG).show()
                 firebaseAnalyze(getBaseActivity()!!.getString(R.string.search_code),
                     if (radioCorrect?.isChecked == true) getBaseActivity()!!.getString(R.string.correct) else getBaseActivity()!!.getString(R.string.error))
             }
