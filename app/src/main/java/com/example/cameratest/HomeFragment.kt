@@ -32,7 +32,7 @@ class HomeFragment: BaseFragment() {
                     ActivityCompat.checkSelfPermission(getBaseActivity()!!, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(getBaseActivity()!!, arrayOf(Manifest.permission.CAMERA), 100)
                 }else{
-                    gotoNextPage(CameraFragment())
+                    gotoNextPage(CameraFragment3())
                 }
             }
         }
@@ -41,7 +41,7 @@ class HomeFragment: BaseFragment() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 100 && grantResults[0] == 0) {
-            gotoNextPage(CameraFragment())
+            gotoNextPage(CameraFragment3())
         }
     }
 }
