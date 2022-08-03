@@ -10,4 +10,5 @@
     <string name="search_code">條碼掃描</string>
     <string name="correct">正確</string>
     <string name="error">錯誤</string>
+    <string name="clear">清空</string>
 </resources>

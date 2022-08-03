@@ -3,6 +3,7 @@ package com.example.cameratest
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.util.Size
 import android.view.*
 import android.widget.*
 import androidx.camera.core.*
@@ -14,7 +15,9 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
+import java.util.*
 import java.util.concurrent.Executors
+import kotlin.collections.ArrayList
 
 class CameraFragment3: BaseFragment() {
 
@@ -24,6 +27,7 @@ class CameraFragment3: BaseFragment() {
 
     private var preview: PreviewView? = null
     private var cam: Camera ?= null
+    private var valueArray = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +39,14 @@ class CameraFragment3: BaseFragment() {
         val view: View = inflater.inflate(R.layout.camera3_layout, container, false)
         preview = view.findViewById(R.id.cameraView)
         mac = view.findViewById(R.id.mac)
+        val clear: TextView = view.findViewById(R.id.clear)
         radioCorrect = view.findViewById(R.id.code_id_correct)
         radioError = view.findViewById(R.id.code_id_error)
 
         radioCorrect?.isChecked = true
+
+        clear.setOnClickListener(onclicklistener())
+
         //送出按鈕
         var sendButton: Button = view.findViewById(R.id.btn_send)
         sendButton.setOnClickListener(onclicklistener())
@@ -48,31 +56,24 @@ class CameraFragment3: BaseFragment() {
         lightSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             setLight(isChecked)
         }
-
-        //  相機掃描
-        openQRCamera()
         return view
     }
 
     override fun onResume() {
         super.onResume()
-
+        //  相機掃描
+        openQRCamera()
     }
 
     private fun openQRCamera() {
         val options = BarcodeScannerOptions.Builder().setBarcodeFormats(
-            Barcode.FORMAT_CODE_128,
-            Barcode.FORMAT_CODE_39,
-            Barcode.FORMAT_CODE_93,
-            Barcode.FORMAT_EAN_8,
-            Barcode.FORMAT_EAN_13,
-            Barcode.FORMAT_QR_CODE,
-            Barcode.FORMAT_UPC_A,
-            Barcode.FORMAT_UPC_E,
-            Barcode.FORMAT_PDF417
+            Barcode.FORMAT_ALL_FORMATS
         ).build()
         val scanner = BarcodeScanning.getClient(options)
-        val analysisUseCase = ImageAnalysis.Builder().build()
+        val analysisUseCase = ImageAnalysis.Builder()
+            .setTargetResolution(Size(2500, 2500))
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .build()
         analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), { imageProxy ->
             processImageProxy(scanner, imageProxy)
         })
@@ -118,7 +119,14 @@ class CameraFragment3: BaseFragment() {
                     // `rawValue` is the decoded value of the barcode
                     barcode?.rawValue?.let { value ->
                         // update our textView to show the decoded value
-                        mac?.text = value
+                        if (!valueArray.contains(value)) {
+                            valueArray.add(value)
+                        }
+                        var text = ""
+                        for (mValue in valueArray){
+                            text += mValue + "\n"
+                        }
+                        mac?.text = text
                     }
                 }
                 .addOnFailureListener {
@@ -158,6 +166,10 @@ class CameraFragment3: BaseFragment() {
                         R.string.error
                     )
                 )
+            }
+            R.id.clear ->{
+                valueArray = ArrayList()
+                mac?.text = ""
             }
         }
     }
