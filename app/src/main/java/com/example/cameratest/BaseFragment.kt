@@ -95,7 +95,7 @@ open class BaseFragment: Fragment(), ActivityListener.onBackPressedListener {
     open fun firebaseAnalyze(title: String, name: String) {
         val analytics = FirebaseAnalytics.getInstance(getBaseActivity()!!)
         val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name)
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, name)
         analytics.logEvent(title, bundle)
     }
 }

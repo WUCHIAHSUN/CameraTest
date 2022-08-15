@@ -8,7 +8,9 @@
     <string name="camera_no_open">相機權限未開啟</string>
 
     <string name="search_code">條碼掃描</string>
-    <string name="correct">正確</string>
-    <string name="error">錯誤</string>
+    <string name="search_code_s">掃描測試_成功</string>
+    <string name="search_code_f">掃描測試_失敗</string>
+    <string name="correct">成功</string>
+    <string name="error">失敗</string>
     <string name="clear">清空</string>
 </resources>

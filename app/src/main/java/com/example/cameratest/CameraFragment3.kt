@@ -160,12 +160,11 @@ class CameraFragment3: BaseFragment() {
                     getBaseActivity()!!.getString(R.string.send),
                     Toast.LENGTH_LONG
                 ).show()
-                firebaseAnalyze(
-                    getBaseActivity()!!.getString(R.string.search_code),
-                    if (radioCorrect?.isChecked == true) getBaseActivity()!!.getString(R.string.correct) else getBaseActivity()!!.getString(
-                        R.string.error
-                    )
-                )
+                if (radioCorrect?.isChecked == true) {
+                    firebaseAnalyze(getBaseActivity()!!.getString(R.string.search_code_s), getBaseActivity()!!.getString(R.string.correct))
+                }else{
+                    firebaseAnalyze(getBaseActivity()!!.getString(R.string.search_code_f), getBaseActivity()!!.getString(R.string.error))
+                }
             }
             R.id.clear ->{
                 valueArray = ArrayList()
